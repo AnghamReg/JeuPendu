@@ -1,0 +1,16 @@
+11 Janvier 2024
+________________________________________________________________
+// fonction  dictionnaire (ANGHAM)
+// fonction programme choisit un mot aléatoire du dictionnaire. (ANESS)
+// fonction programme réagit avec utilisateur selon la lettre proposé (ydhaher blasa wela ydhaher partie mel pendu) (ANESS)
+________________________________________________________________
+Next meeting 13 Janvier 2024 - 15h
+
+
+
+________________________________________________________________
+
+***** ken najamna *****
+// fonction programme choisit la difficulté ( nbre d'éssai facile : 10 normal : 7 difficile :4)
+// _ _ _ _ 
+// input f prompt + buttons (customizable)
