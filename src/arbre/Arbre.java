@@ -25,6 +25,7 @@ public class Arbre {
 		return this.racine.getCaractere().equals("$");
 	}
 	
+	
 	//dessiner arbre
 	public void dessinerArbre() {
 		System.out.println("_________ Votre arbre ___________ \n\n");
