@@ -127,13 +127,12 @@ public class Arbre {
 	 
 	 //insérer chaine dans arbre
 	 public void insererChaine(String ch) {
-		 //char[] charArray=ch.toCharArray();
 		 int n=ch.length();
 		 String[] charArray=ch.split("");
 		 
 		 if(this.estVide()) {
 			 this.setRacine(charArray[0]);
-			 Noeud j=new Noeud();//Avion a racine => fils gauche v
+			 Noeud j=new Noeud();
 			 this.racine.setFG(new Noeud(charArray[1]));
 			 j=this.racine.getFG();
 			 int i=2;
@@ -146,7 +145,7 @@ public class Arbre {
 			 j.setFG(new Noeud("\0"));
 			 return;
 		 }else {
-			 //premier lettre de la chaine est différent du racine
+			 //Premier lettre de la chaine est différent du racine
 			 if(!this.racine.getCaractere().equals(charArray[0])) {
 				if(this.racine.getFD().getCaractere()==null) {
 		
@@ -163,32 +162,87 @@ public class Arbre {
 					j.setFG(new Noeud("\0"));
 					return;
 				}else {
-					//TODO : FILS DROITE DIFFERENT DE NULL
-					
+					// Fils droite différent de null
+					Noeud j=new Noeud();
+					 Noeud y=new Noeud();
+					 j=this.racine.getFD();
+					 boolean stop=false;
+					 int a=0;
+					//parcourir l'arbre jusqu'à arrêter à \0 
+					 //ou jusqu'à FD=null ou FG=null
+					 while(!stop) {
+						 if(j.getCaractere().equals("\0")) {
+							 stop=true;
+						 }else {
+							 if(j.getCaractere().equals(charArray[a])) {
+								 if(j.getFG()==null) {
+									 stop=true;
+								 }else {
+									 j=j.getFG();
+									 a++; 
+								 }
+								 
+							 }else {
+								 if(j.getFD().getCaractere()==null) {
+									 stop=true;
+								 }else {
+									 j=j.getFD(); 
+								 }
+							 }
+						 }	 
+					 }
+					 ajouterChaineArbre(charArray,a,j,n);					
 				}
 			 }else {
 				//premier lettre de la chaine est égale à la racine
 				 Noeud j=new Noeud();
 				 Noeud y=new Noeud();
-				 j=this.racine.getFG(); // ces ceaodzunjkad
-				 //2ème lettre de chaine est différent au fils gauche du racine
-				 if(!j.getCaractere().equals(charArray[1])) {
-					 Noeud fd=new Noeud(charArray[1]);
-					 j.setFD(fd);
-					 y=j.getFD();
-					 int i=2;
-					 while(i<n) {
-						 Noeud x=new Noeud(""+charArray[i]);
-						 y.setFG(x);
-						 y=y.getFG();
-						 i++;
-					 }
-					 y.setFG(new Noeud("\0"));
-				 } 
-			 }
-			 
+				 j=this.racine.getFG();
+				 boolean stop=false;
+				 int a=1;
+				 //parcourir l'arbre jusqu'à arrêter à \0 
+				 //ou jusqu'à FD=null ou FG=null
+				 while(!stop) {
+					 if(j.getCaractere().equals("\0")) {
+						 stop=true;
+					 }else {
+						 if(j.getCaractere().equals(charArray[a])) {
+							 if(j.getFG()==null) {
+								 stop=true;
+							 }else {
+								 j=j.getFG();
+								 a++; 
+							 }
+							 
+						 }else {
+							 if(j.getFD().getCaractere()==null) {
+								 stop=true;
+							 }else {
+								 j=j.getFD(); 
+							 }
+						 }
+					 }	 
+				 }
+				 //ajouter le reste de la chaine à l'arbre
+				 ajouterChaineArbre(charArray,a,j,n);	
+			 } 
 		 }
 }
+	 
+	 private void ajouterChaineArbre(String[] charArray,int a,Noeud j,int length) {
+		 Noeud fd=new Noeud(charArray[a]);
+		 Noeud y=new Noeud();
+		 j.setFD(fd);
+		 y=j.getFD();
+		 int i=a+1;
+		 while(i<length) {
+			 Noeud x=new Noeud(""+charArray[i]);
+			 y.setFG(x);
+			 y=y.getFG();
+			 i++;
+		 }
+		 y.setFG(new Noeud("\0"));
+	 }
 	
 
 

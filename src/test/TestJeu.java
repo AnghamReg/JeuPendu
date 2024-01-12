@@ -13,9 +13,13 @@ public class TestJeu {
 		
 		Arbre arbre=new Arbre("$");
 		arbre.insererChaine("cas");
+		arbre.insererChaine("ce");
+		arbre.insererChaine("ces");
+		arbre.insererChaine("ci");
 		arbre.insererChaine("de");
-		arbre.insererChaine("kaka");
-		//arbre.insererChaine("ces");
+		arbre.insererChaine("des");
+		arbre.insererChaine("do");
+		//arbre.insererChaine("cici");
 		arbre.dessinerArbre();
 		//Début du jeu
 		
