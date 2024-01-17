@@ -295,4 +295,18 @@ public class DicTree {
 		return word;
 	}
 
+	public String pathToWord(Node root, String path) {
+		Node rootInt = root;
+		String word = "";
+		String[] paths = path.split("");
+		for (String string : paths) {
+			if (string.equals("L")) {
+				word = word.concat(rootInt.getValue());
+				rootInt = rootInt.getLeft();
+			} else if (string.equals("R")) {
+				rootInt = rootInt.getRight();
+			}
+		}
+		return word;
+	}
 }
