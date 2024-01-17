@@ -142,8 +142,8 @@ public class DicTree {
 					if (node.getValue().equals(c)) {
 						 arr.add(ch+"L");
 					} else {
-						findNode(node.getRight(),c,ch+"R",arr);
-						findNode(node.getLeft(), c,ch+"L",arr);
+						getArrayPath(node.getRight(),c,ch+"R",arr);
+						getArrayPath(node.getLeft(), c,ch+"L",arr);
 					}	
 				}else {
 					ch="";
