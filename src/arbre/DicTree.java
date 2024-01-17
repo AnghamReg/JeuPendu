@@ -1,5 +1,6 @@
 package arbre;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class DicTree {
@@ -125,6 +126,30 @@ public class DicTree {
 			}
 		}
 	}
+	
+	// rechercher
+		public ArrayList<String> findNodeByValueReturnList(String c) {
+			ArrayList<String> arr=new ArrayList<String>();
+			 getArrayPath(this.root, c,"",arr);
+			return arr;
+		}
+
+		private void getArrayPath(Node node, String c,String ch,ArrayList<String> arr) {
+			if (node == null) {
+				 ch="";
+			} else {
+				if(node.getValue()!=null) {
+					if (node.getValue().equals(c)) {
+						 arr.add(ch+"L");
+					} else {
+						findNode(node.getRight(),c,ch+"R",arr);
+						findNode(node.getLeft(), c,ch+"L",arr);
+					}	
+				}else {
+					ch="";
+				}
+			}
+		}
 
 	// insérer chaine dans arbre
 	public void addWord(String ch) {

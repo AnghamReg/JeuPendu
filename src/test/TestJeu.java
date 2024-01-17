@@ -27,6 +27,7 @@ public class TestJeu {
 			arbre.addWord(st);
 		}
 		arbre.drawTree();
+		System.out.println(arbre.findNodeByValueReturnList("s").toString());
 
 		// // choisir difficulté
 		// System.out.println("Choose difficulty : (1) Easy / (2) Medium / (3) Hard
