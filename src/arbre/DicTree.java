@@ -249,12 +249,16 @@ public class DicTree {
 		 int length=0;
 		 switch(difficulty) {
 		 case 1:
+			 length=rand.nextInt(3) + 2; //[2,4]
 			 break;
 		 case 2:
+			 length=rand.nextInt(3) + 5; //[5,7]
 			 break;
 		 case 3:
+			 length=rand.nextInt(8) + 8; //[8,15]
 			 break;
 		 default:
+			 length=5;
 		 }
 		 return "";
 	 }
