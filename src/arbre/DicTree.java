@@ -1,5 +1,7 @@
 package arbre;
 
+import java.util.Random;
+
 public class DicTree {
 	private Node root;
 	
@@ -241,7 +243,22 @@ public class DicTree {
 		 }
 		 y.setLeft(new Node("\0"));
 	 }
-	
-
+	 //retourne phrase 
+	 public String chooseWord(int difficulty) {
+		 Random rand = new Random();
+		 int length=0;
+		 switch(difficulty) {
+		 case 1:
+			 break;
+		 case 2:
+			 break;
+		 case 3:
+			 break;
+		 default:
+		 }
+		 return "";
+	 }
+	 //fonction retourne path a partie de la racine exemple :LRRRLR
+	 //
 
 }

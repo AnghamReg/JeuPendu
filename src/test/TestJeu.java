@@ -4,23 +4,53 @@ import javax.swing.*;
 import arbre.DicTree;
 import arbre.Node;
 import interfaceGraphique.HangManGraphic;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.Scanner;
 
 public class TestJeu {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 		
-		
+		//ajouter les mots au dictionnaire
 		DicTree arbre=new DicTree("$");
-		arbre.addWord("cas");
-		arbre.addWord("ce");
-		arbre.addWord("ces");
-		arbre.addWord("ci");
-		arbre.addWord("de");
-		arbre.addWord("des");
-		arbre.addWord("do");
-		//arbre.insererChaine("cici");
+		File file = new File("./test.txt");
+		BufferedReader br = new BufferedReader(new FileReader(file));
+
+		String st;
+		// Condition holds true till
+		// there is character in a string
+		while ((st = br.readLine()) != null) {
+			arbre.addWord(st);
+		}
 		arbre.drawTree();
+		
+		//choisir difficulté
+		System.out.println("Choose difficulty : (1) Easy / (2) Medium / (3) Hard  \n");
+		Scanner scanner = new Scanner(System.in);
+		int difficulty=scanner.nextInt();
+		int nbTries=0;
+//		String wordToGuess = arbre.chooseWord(difficulty);
+		String str = "";
+		
+		switch(difficulty) {
+		case 1:
+			nbTries=10;
+			break;
+		case 2:
+			nbTries=7;
+			break;
+		case 3:
+			nbTries=4;
+			break;
+		default:
+		}
+		//
+		
+		
+		//
 		//Début du jeu
 		
 		//Construire l'interface graphique
