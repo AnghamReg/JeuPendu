@@ -4,46 +4,46 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class PenduGraphique extends JPanel {
-	 private BufferedImage penduPartiel;
-	 private int etape = 0;
+public class HangManGraphic extends JPanel {
+	 private BufferedImage image;
+	 private int step = 0;
 
-    public int getEtape() {
-    	return etape;
+    public int getStep() {
+    	return step;
     }
 
-    public PenduGraphique() {
+    public HangManGraphic() {
         setPreferredSize(new Dimension(300, 400));
-        penduPartiel = new BufferedImage(300, 400, BufferedImage.TYPE_INT_ARGB);
-        initialiserPendu();
+        image = new BufferedImage(300, 400, BufferedImage.TYPE_INT_ARGB);
+        initialiseInterface();
     }
 
-    private void initialiserPendu() {
-        Graphics2D g2d = penduPartiel.createGraphics();
+    private void initialiseInterface() {
+        Graphics2D g2d = image.createGraphics();
         g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(3)); // Épaisseur du trait
         g2d.drawRect(15, 15, 270, 370);
         g2d.dispose();
     }
 
-    public void setEtape(int nouvelleEtape) {
-        etape = nouvelleEtape;
+    public void setEtape(int newStep) {
+        step = newStep;
         repaint();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(penduPartiel, 0, 0, this); // Dessine le pendu partiel sur le JPanel
+        g.drawImage(image, 0, 0, this); // Dessine le pendu partiel sur le JPanel
         Graphics2D g2d = (Graphics2D) g;
-        dessinerPendu(g2d, etape); // Dessine l'étape actuelle du pendu
+        drawHangMan(g2d, step); // Dessine l'étape actuelle du pendu
     }
 
-    private void dessinerPendu(Graphics g, int etape) {
+    private void drawHangMan(Graphics g, int step) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.RED); // Changez la couleur ou les paramètres selon vos besoins
 
-        switch (etape) {
+        switch (step) {
         case 1 : 
             g2d.setColor(Color.BLACK);
             g2d.drawLine(50, 350, 50, 50); // Poteau vertical initial
