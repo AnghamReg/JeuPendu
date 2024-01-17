@@ -77,6 +77,7 @@ public class TestJeu {
             }
         }
         System.out.println("Le jeu est terminé !");
-	}
+	}*/
 
+}
 }
