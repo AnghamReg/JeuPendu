@@ -53,6 +53,7 @@ public class TestJeu {
 		// //
 
 		String word = arbre.randomWord(arbre.getRoot());
+		System.out.println(arbre.pathToWord(arbre.getRoot(), word));
 		System.out.println(word);
 		String[] wordArray = word.split("");
 		//
