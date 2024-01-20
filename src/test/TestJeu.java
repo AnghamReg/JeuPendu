@@ -69,28 +69,28 @@ public class TestJeu {
 		frame.setVisible(true);
 
 		// L'utilisateur va commencer à jouer
-		System.out.println("Donner moi une lettre : ");
-		Scanner scanner = new Scanner(System.in);
-		Boolean correctGuess = false;
-		int etapeActuelle = penduPanel.getStep();
-		while (etapeActuelle < 9) {
-			String input = scanner.nextLine();
-			for (String string : wordArray) {
-				if (string.equals(input)) {
-					correctGuess = true;
-					break;
-				}
-			}
-			if (correctGuess)
-				continue;
-			etapeActuelle = penduPanel.getStep();
-			if (etapeActuelle < 11) {
-				penduPanel.setEtape(etapeActuelle + 1); // Augmente l'étape du pendu
-			} else {
-				break;
-			}
-		}
-		System.out.println("Le jeu est terminé !");
-		scanner.close();
+//		System.out.println("Donner moi une lettre : ");
+//		Scanner scanner = new Scanner(System.in);
+//		Boolean correctGuess = false;
+//		int etapeActuelle = penduPanel.getStep();
+//		while (etapeActuelle < 9) {
+//			String input = scanner.nextLine();
+//			for (String string : wordArray) {
+//				if (string.equals(input)) {
+//					correctGuess = true;
+//					break;
+//				}
+//			}
+//			if (correctGuess)
+//				continue;
+//			etapeActuelle = penduPanel.getStep();
+//			if (etapeActuelle < 11) {
+//				penduPanel.setEtape(etapeActuelle + 1); // Augmente l'étape du pendu
+//			} else {
+//				break;
+//			}
+//		}
+//		System.out.println("Le jeu est terminé !");
+//		scanner.close();
 	}
 }
