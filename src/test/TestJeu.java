@@ -4,7 +4,7 @@ import javax.swing.*;
 
 import arbre.DicTree;
 import arbre.Node;
-import interfaceGraphique.HangManGraphic;
+import interfaceGraphique.MenuWindow;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -60,13 +60,13 @@ public class TestJeu {
 		// Début du jeu
 
 		// Construire l'interface graphique
-		JFrame frame = new JFrame("Jeu du Pendu");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		HangManGraphic penduPanel = new HangManGraphic();
-		frame.add(penduPanel);
-		frame.pack();
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+		//JFrame frame = new JFrame("Jeu du Pendu");
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		MenuWindow penduPanel = new MenuWindow();
+//		frame.add(penduPanel);
+//		frame.pack();
+//		frame.setLocationRelativeTo(null);
+//		frame.setVisible(true);
 
 		// L'utilisateur va commencer à jouer
 //		System.out.println("Donner moi une lettre : ");
