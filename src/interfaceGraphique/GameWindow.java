@@ -1,22 +1,29 @@
 package interfaceGraphique;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import interfaceGraphique.MenuWindow.Level;
 
 public class GameWindow extends JFrame {	
 	private GameInterface gameInterface;
 	
-	public GameWindow(Level diff) {
-		this.setTitle("Hangman Game");
+	public GameWindow(Level diff, String playerName) {
+		String mode;
+		System.out.println("the mode is : "+diff.toString().toLowerCase());
+		switch(diff.toString().toLowerCase()) {
+		case "low":
+			mode="Easy";
+			break;
+		case "medium":
+			mode="Medium";
+			break;
+		default :
+			mode="Hard";
+		}
+		this.setTitle("Hangman Game [ "+mode+" Mode ]");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		gameInterface=new GameInterface(this,diff);
+		gameInterface=new GameInterface(this,diff,playerName);
 		this.add(gameInterface);
 		this.pack();
 		this.setLocationRelativeTo(null);

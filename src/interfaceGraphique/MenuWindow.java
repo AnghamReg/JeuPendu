@@ -27,7 +27,7 @@ public class MenuWindow extends JFrame {
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
-		playBackgroundMusic();
+		//playBackgroundMusic();
 	}
 	
 	private void playBackgroundMusic() {
@@ -39,14 +39,6 @@ public class MenuWindow extends JFrame {
 	        backgroundMusic.start();
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	    }
-	}
-
-	// Helper method to stop the background music
-	private void stopBackgroundMusic() {
-	    if (backgroundMusic != null && backgroundMusic.isRunning()) {
-	        backgroundMusic.stop();
-	        backgroundMusic.close();
 	    }
 	}
 

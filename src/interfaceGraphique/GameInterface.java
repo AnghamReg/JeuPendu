@@ -10,6 +10,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -24,14 +25,18 @@ import interfaceGraphique.MenuWindow.Level;
 public class GameInterface extends JPanel {
 	private JFrame gameWindow;
 	private HangmanDrawingPanel hangmanPanel;
-	private ArrayList<Integer> indices;
+	private ArrayList<Integer> indexRevealed;
 	private Level difficulty;
+	private String playerName;
+    private String word="congratulations";
+
 	
-	public GameInterface(JFrame gw, Level diff) {
-		indices=new ArrayList<>();
+	public GameInterface(JFrame gw, Level diff, String playerName) {
+		this.playerName=playerName;
+		indexRevealed=new ArrayList<>();
 		this.gameWindow=new JFrame();
 		this.gameWindow=gw;
-		setPreferredSize(new Dimension(600, 700));
+		setPreferredSize(new Dimension(600, 500)); //600,600 works
 		this.startGame(diff);
 	}
 	
@@ -48,13 +53,38 @@ public class GameInterface extends JPanel {
 
         for (int i = 0; i < word.length(); i++) {
             if (word.charAt(i) == targetLetter) {
-                indices.add(i);
+            	if(!indexRevealed.contains(i)) {
+            		indexRevealed.add(i);
+            	}
+                
             }
         }
     }
 	
+	private void chooseRandomIndexToDisplay() {
+		int n=this.word.length();
+		Random random = new Random();
+		for(int i=0;i<n/2;i++) {
+			this.indexRevealed.add(random.nextInt(n) + 1);
+		}
+	}
+	
+	
 	public void startGame(Level difficulty) {
 		this.difficulty=difficulty;
+
+		switch(difficulty.toString().toLowerCase()) {
+		case "low":
+			if(this.indexRevealed.isEmpty()) {
+				chooseRandomIndexToDisplay();
+			}
+			break;
+		case "medium":
+			
+			break;
+		default :
+
+		}
 		setLayout(new BorderLayout());
         this.hangmanPanel=new HangmanDrawingPanel();
        add(this.hangmanPanel,BorderLayout.NORTH);
@@ -90,11 +120,11 @@ public class GameInterface extends JPanel {
          gbc.gridy=1;
          int line=1;
          int column=1;
-       //Add first letter
     
-         String word="happy";
+         //the word to guess
+         word.toLowerCase();
          String[] wordCrypted=word.toLowerCase().split("");
-         if(!indices.contains(0)) {
+         if(!indexRevealed.contains(0)) {
         	 wordCrypted[0]="_";  
          }else {
         	 wordCrypted[0]=word.toLowerCase().split("")[0];
@@ -113,8 +143,8 @@ public class GameInterface extends JPanel {
        	column++;
          
        	gbc.insets=new Insets(0,0,0,0);
-         for(int j=1;j<"happy".length();j++) {
-        	 if(!indices.contains(j)) {
+         for(int j=1;j<word.length();j++) {
+        	 if(!indexRevealed.contains(j)) {
             	 wordCrypted[j]="_";  
              }else {
             	 wordCrypted[j]=word.toLowerCase().split("")[j];
@@ -125,13 +155,18 @@ public class GameInterface extends JPanel {
          	user.add(letterToGuessNext,gbc);
          	column++;
          }
+         gbc.gridx=column;
+         gbc.insets=new Insets(0,5,0,0);
+         JLabel wordLength=new JLabel("("+word.length()+")");
+        	user.add(wordLength,gbc);
+        gbc.insets=new Insets(0,0,0,0);
          System.out.println("wordCrypted is : "+ String.join(" ", wordCrypted));
          
          okButton.addActionListener(new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent e) {
            	  JTextField letterField = le;
-                 String enteredLetter = letterField.getText(); 
+                 String enteredLetter = letterField.getText().toLowerCase(); 
              	if(enteredLetter.isEmpty()) {
                      JOptionPane.showMessageDialog(GameInterface.this, "Please enter a letter.", "Error", JOptionPane.ERROR_MESSAGE);
              	}else {
@@ -141,30 +176,27 @@ public class GameInterface extends JPanel {
              			if(hangmanPanel.getStep()<10) {
                         if(word.contains(enteredLetter)) {
                         	le.setText("");
-                        	System.out.println("happy contains : "+enteredLetter.toString()+" in index : "+word.indexOf(enteredLetter.toString()));
                         	updateIndices(enteredLetter,word);
-                        	System.out.println(indices.toString());
                         	revalidate();
+                        	le.requestFocus();
                         	startGame(difficulty);
-                        	if(indices.size()==word.length()) {
-                        		new WinningFrame(word,gameWindow);
+                        	if(indexRevealed.size()==word.length()) {
+                        		System.out.println("revealed indexes are : "+indexRevealed.toString()+" word leng= "+word.length());
+                        		new WinningFrame(word,gameWindow,playerName);
                         	}
                      	
                         }else {
                         	le.setText("");
-                        	 revalidate();
-                        	hangmanPanel.addOneStep();
+                        	revalidate();
+                        	hangmanPanel.addOneStep();                   
                         	le.requestFocus();
                         	if(hangmanPanel.getStep()>=10) {
-                        		new RetryFrame(word, gameWindow);
+                        		new RetryFrame(word, gameWindow,playerName);
                         		
                         	}
                         	
                         }
              			
-             			}else {
-             				//lose
-             				
              			}
              		}
 

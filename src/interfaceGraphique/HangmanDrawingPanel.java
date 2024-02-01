@@ -10,11 +10,10 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 public class HangmanDrawingPanel extends JPanel{
-	private int step=0;
+	 static int step=0;
 	
 	public HangmanDrawingPanel() {
 		this.setPreferredSize(new Dimension(600, 400));
-		//setPreferredSize(this.getPreferredSize());
 	}
 	
 	public HangmanDrawingPanel(int step) {
@@ -24,10 +23,9 @@ public class HangmanDrawingPanel extends JPanel{
 	public int getStep() {
 		return step;
 	}
-	
+
 	public void addOneStep() {
 		this.step=this.step+1;
-		System.out.println("step is : "+step);
 		repaint();
 	}
 	

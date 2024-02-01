@@ -17,8 +17,6 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -34,12 +32,9 @@ import javax.swing.JTextField;
 import interfaceGraphique.MenuWindow.Level;
 
 public class MenuInterface extends JPanel {
-	private Clip backgroundMusic;
 	private String playerName;
-	private GameWindow gameInterface;
 	private BufferedImage image;
 	private JFrame menuWindow;
-	private Clip backgroundMusicMenu;
 
 	
 	public MenuInterface(JFrame mw) {
@@ -108,19 +103,18 @@ public class MenuInterface extends JPanel {
 		gbc.gridy = line;
 		gbc.insets = new Insets(0, 0, 20, 0);
 		add(l1, gbc);
+		
+        ImageIcon originalIcon = new ImageIcon(MenuWindow.class.getResource("/resources/hangman.jpg")); 
+        Image originalImage = originalIcon.getImage();
+        Image resizedImage = originalImage.getScaledInstance(400, 250, Image.SCALE_SMOOTH); // Adjust width and height
+        ImageIcon resizedIcon = new ImageIcon(resizedImage);
+        JLabel imageLabel = new JLabel(resizedIcon);
+        line++;
+        //line 1
+		gbc.gridy = line;
+		gbc.insets = new Insets(0, 0, 80, 0);
+		add(imageLabel, gbc);
 
-		String url = "https://replit.com/cdn-cgi/image/quality=80,metadata=copyright,format=auto/https://storage.googleapis.com/replit/images/1585940175021_39360a4db2b546a4455230a428a321de.png";
-		try {
-			JLabel gifLabel = getImage(url, 400);
-			// ligne 1
-			line++;
-			gbc.gridy = line;
-			gbc.insets = new Insets(0, 0, 80, 0);
-			add(gifLabel, gbc);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
 		JLabel l2 = getLabel("Enter your name :");
 		// ligne 2
@@ -163,8 +157,7 @@ public class MenuInterface extends JPanel {
 	private void removeWindowAndStartGame(Level diff,JFrame difficultyFrame,JFrame menuWindow) {
 	difficultyFrame.dispose();
 	menuWindow.dispose();
-	this.backgroundMusic.stop();
-	gameInterface = new GameWindow(diff);
+	new GameWindow(diff,playerName);
 	}
 	
 	private void showDifficultySelection() {
@@ -189,10 +182,10 @@ public class MenuInterface extends JPanel {
 					removeWindowAndStartGame(Level.LOW,difficultyFrame,menuWindow);
 		
 				} else if (mediumRadioButton.isSelected()) {
-					removeWindowAndStartGame(Level.LOW,difficultyFrame,menuWindow);
+					removeWindowAndStartGame(Level.MEDIUM,difficultyFrame,menuWindow);
 					
 				} else if (hardRadioButton.isSelected()) {
-					removeWindowAndStartGame(Level.LOW,difficultyFrame,menuWindow);
+					removeWindowAndStartGame(Level.HIGH,difficultyFrame,menuWindow);
 					
 				} else {
 					JOptionPane.showMessageDialog(difficultyFrame, "Please select a difficulty.");
