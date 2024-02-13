@@ -37,7 +37,23 @@ public class GameInterface extends JPanel {
 		this.gameWindow = new JFrame();
 		this.gameWindow = gw;
 		setPreferredSize(new Dimension(600, 500)); // 600,600 works
+		Classification classification = new Classification();
+
 		this.difficulty = diff;
+		switch (diff.toString()) {
+			case "LOW":
+				this.word = classification.randomWord(1);
+				break;
+			case "MEDIUM":
+				this.word = classification.randomWord(2);
+				break;
+			case "HARD":
+				this.word = classification.randomWord(3);
+				break;
+
+			default:
+				break;
+		}
 		System.out.println(diff);
 		// this.startGame(diff);
 	}
@@ -54,7 +70,7 @@ public class GameInterface extends JPanel {
 		char targetLetter = letter.charAt(0);
 
 		for (int i = 0; i < word.length(); i++) {
-			if (word.charAt(i) == targetLetter) {
+			if (word.toUpperCase().charAt(i) == targetLetter) {
 				if (!indexRevealed.contains(i)) {
 					indexRevealed.add(i);
 				}
@@ -74,16 +90,13 @@ public class GameInterface extends JPanel {
 	public void startGame() {
 		System.err.println("starting");
 		// this.difficulty = difficulty;
-		Classification classification = new Classification();
-		switch (difficulty.toString().toLowerCase()) {
+		switch (difficulty.toString().toUpperCase()) {
 			case "low":
 				if (this.indexRevealed.isEmpty()) {
-					this.word = classification.randomWord(1);
 					chooseRandomIndexToDisplay();
 				}
 				break;
 			case "medium":
-				this.word = classification.randomWord(2);
 
 				break;
 			default:
@@ -124,12 +137,13 @@ public class GameInterface extends JPanel {
 		int column = 1;
 
 		// the word to guess
-		word.toLowerCase();
-		String[] wordCrypted = word.toLowerCase().split("");
+		word.toUpperCase();
+		System.out.println("the word is : " + word);
+		String[] wordCrypted = word.toUpperCase().split("");
 		if (!indexRevealed.contains(0)) {
 			wordCrypted[0] = "_";
 		} else {
-			wordCrypted[0] = word.toLowerCase().split("")[0];
+			wordCrypted[0] = word.toUpperCase().split("")[0];
 		}
 
 		gbc.insets = new Insets(0, 60, 0, 0);
@@ -149,7 +163,7 @@ public class GameInterface extends JPanel {
 			if (!indexRevealed.contains(j)) {
 				wordCrypted[j] = "_";
 			} else {
-				wordCrypted[j] = word.toLowerCase().split("")[j];
+				wordCrypted[j] = word.toUpperCase().split("")[j];
 			}
 			gbc.gridx = column;
 			gbc.gridy = line;
@@ -169,7 +183,7 @@ public class GameInterface extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("the word is : " + word);
 				JTextField letterField = le;
-				String enteredLetter = letterField.getText().toLowerCase();
+				String enteredLetter = letterField.getText().toUpperCase();
 				if (enteredLetter.isEmpty()) {
 					JOptionPane.showMessageDialog(GameInterface.this, "Please enter a letter.", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -179,12 +193,12 @@ public class GameInterface extends JPanel {
 								"Invalid Input", JOptionPane.ERROR_MESSAGE);
 					} else {
 						if (hangmanPanel.getStep() < 10) {
-							if (word.toLowerCase().contains(enteredLetter.toLowerCase())) {
+							if (word.toUpperCase().contains(enteredLetter.toUpperCase())) {
 								le.setText("");
 								updateIndices(enteredLetter, word);
 								revalidate();
 								le.requestFocus();
-								// startGame(difficulty);
+								startGame();
 								if (indexRevealed.size() == word.length()) {
 									System.out.println("revealed indexes are : " + indexRevealed.toString()
 											+ " word leng= " + word.length());
