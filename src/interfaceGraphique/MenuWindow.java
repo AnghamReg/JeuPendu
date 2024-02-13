@@ -27,7 +27,7 @@ public class MenuWindow extends JFrame {
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
-		//playBackgroundMusic();
+		playBackgroundMusic();
 	}
 	
 	private void playBackgroundMusic() {
