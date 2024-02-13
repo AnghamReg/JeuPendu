@@ -29,7 +29,7 @@ public class GameInterface extends JPanel {
 	private ArrayList<Integer> indexRevealed;
 	private Level difficulty;
 	private String playerName;
-	private String word = "congratulations";
+	private String word;
 
 	public GameInterface(JFrame gw, Level diff, String playerName) {
 		this.playerName = playerName;
@@ -47,7 +47,7 @@ public class GameInterface extends JPanel {
 			case "MEDIUM":
 				this.word = classification.randomWord(2);
 				break;
-			case "HARD":
+			case "HIGH":
 				this.word = classification.randomWord(3);
 				break;
 
@@ -94,7 +94,9 @@ public class GameInterface extends JPanel {
 		setLayout(new BorderLayout());
 		this.hangmanPanel = new HangmanDrawingPanel();
 		add(this.hangmanPanel, BorderLayout.NORTH);
-
+		if (this.difficulty.toString().equals("HIGH") && this.hangmanPanel.getStep() == 0) {
+			HangmanDrawingPanel.setStep(5);
+		}
 		JPanel user = new JPanel();
 		user.setPreferredSize(new Dimension(500, 200));
 		user.setLayout(new GridBagLayout());
@@ -185,7 +187,7 @@ public class GameInterface extends JPanel {
 							if (word.toUpperCase().contains(enteredLetter.toUpperCase())) {
 								le.setText("");
 								updateIndices(enteredLetter);
-								System.out.println("index are : "+indexRevealed.toString());
+								System.out.println("index are : " + indexRevealed.toString());
 								revalidate();
 								le.requestFocus();
 								startGame();
