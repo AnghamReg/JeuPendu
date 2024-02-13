@@ -43,6 +43,7 @@ public class GameInterface extends JPanel {
 		switch (diff.toString()) {
 			case "LOW":
 				this.word = classification.randomWord(1);
+				this.chooseRandomIndexToDisplay();
 				break;
 			case "MEDIUM":
 				this.word = classification.randomWord(2);
@@ -81,10 +82,18 @@ public class GameInterface extends JPanel {
 
 	private void chooseRandomIndexToDisplay() {
 		int n = this.word.length();
+		System.out.println("word is before length is : "+this.word);
+		System.out.println("length is : "+n);
 		Random random = new Random();
+		int randomInt=0;
 		for (int i = 0; i < n / 2; i++) {
-			this.indexRevealed.add(random.nextInt(n) + 1);
+			randomInt=random.nextInt(n) + 1;
+			if(!indexRevealed.contains(randomInt)) {
+				this.indexRevealed.add(randomInt);
+			}
+			
 		}
+		System.out.println("we added random indexes = "+indexRevealed.toString());
 	}
 
 	// public void startGame(Level difficulty) {
