@@ -104,6 +104,27 @@ public class MenuInterface extends JPanel {
 		gbc.insets = new Insets(0, 0, 20, 0);
 		add(l1, gbc);
 		
+		ImageIcon originalIconForButton = new ImageIcon(MenuWindow.class.getResource("/resources/manageDic.png")); 
+		Image originalImageForButton = originalIconForButton.getImage();
+		int width = 20; // Specify the desired width
+		int height = 20; // Specify the desired height
+		Image resizedImageForButton = originalImageForButton.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+		ImageIcon scaledIconForButton = new ImageIcon(resizedImageForButton);
+		JButton manageDicButton = new JButton(scaledIconForButton);
+		manageDicButton.setBackground(Color.white);
+        line++;
+        gbc.gridy = line;
+        add(manageDicButton, gbc);
+        
+        manageDicButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//addFrame
+			}
+		});
+        
+		
         ImageIcon originalIcon = new ImageIcon(MenuWindow.class.getResource("/resources/hangman.jpg")); 
         Image originalImage = originalIcon.getImage();
         Image resizedImage = originalImage.getScaledInstance(400, 250, Image.SCALE_SMOOTH); // Adjust width and height
