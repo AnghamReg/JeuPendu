@@ -369,6 +369,7 @@ public class DicTree {
 			nLCL = 0;
 			nMCL = 0;
 			String word = this.pathToWord(path);
+			word = word.substring(0, word.length() - 1);
 			Set<Character> uniqueLetters = new HashSet<>();
 			for (char c : word.toCharArray()) {
 				uniqueLetters.add(c);
