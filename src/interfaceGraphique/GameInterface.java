@@ -28,7 +28,7 @@ public class GameInterface extends JPanel {
 	private ArrayList<Integer> indexRevealed;
 	private Level difficulty;
 	private String playerName;
-    private String word="congratulations";
+    private String word="internet";
 
 	
 	public GameInterface(JFrame gw, Level diff, String playerName) {
