@@ -36,27 +36,24 @@ public class MenuInterface extends JPanel {
 	private BufferedImage image;
 	private JFrame menuWindow;
 
-	
 	public MenuInterface(JFrame mw) {
-		menuWindow=new JFrame();
-		this.menuWindow=mw;
+		menuWindow = new JFrame();
+		this.menuWindow = mw;
 		setPreferredSize(new Dimension(500, 600));
 		image = new BufferedImage(500, 600, BufferedImage.TYPE_INT_ARGB);
-		 menuInterface();
+		menuInterface();
 	}
-	
+
 	@Override
-	public void paintComponent(Graphics g)
-	{
-	   super.paintComponent(g);
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 	}
-	
-	
+
 	private JLabel getLabel(String text) {
 		JLabel l = new JLabel(text);
 		return l;
 	}
-	
+
 	private JLabel getImage(String url, int width) throws IOException {
 		URL gifUrl = new URL(url);
 		BufferedImage originalImage = ImageIO.read(gifUrl);
@@ -72,13 +69,13 @@ public class MenuInterface extends JPanel {
 		JLabel gifLabel = new JLabel(resizedIcon);
 		return gifLabel;
 	}
-	
+
 	private JTextField getTextField(int width, int height) {
 		JTextField txtField = new JTextField();
 		txtField.setPreferredSize(new Dimension(width, height));
 		return txtField;
 	}
-	
+
 	private JButton getButton(String text, String nameFont, int sizeFont) {
 		JButton playButton = new JButton(text);
 		// Font
@@ -89,7 +86,7 @@ public class MenuInterface extends JPanel {
 	}
 
 	public void menuInterface() {
-		 //this.playBackgroundMusic();
+		// this.playBackgroundMusic();
 
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -103,18 +100,37 @@ public class MenuInterface extends JPanel {
 		gbc.gridy = line;
 		gbc.insets = new Insets(0, 0, 20, 0);
 		add(l1, gbc);
-		
-        ImageIcon originalIcon = new ImageIcon(MenuWindow.class.getResource("/resources/hangman.jpg")); 
-        Image originalImage = originalIcon.getImage();
-        Image resizedImage = originalImage.getScaledInstance(400, 250, Image.SCALE_SMOOTH); // Adjust width and height
-        ImageIcon resizedIcon = new ImageIcon(resizedImage);
-        JLabel imageLabel = new JLabel(resizedIcon);
-        line++;
-        //line 1
+
+		ImageIcon originalIconForButton = new ImageIcon(MenuWindow.class.getResource("/resources/manageDic.png"));
+		Image originalImageForButton = originalIconForButton.getImage();
+		int width = 20; // Specify the desired width
+		int height = 20; // Specify the desired height
+		Image resizedImageForButton = originalImageForButton.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+		ImageIcon scaledIconForButton = new ImageIcon(resizedImageForButton);
+		JButton manageDicButton = new JButton(scaledIconForButton);
+		manageDicButton.setBackground(Color.white);
+		line++;
+		gbc.gridy = line;
+		add(manageDicButton, gbc);
+
+		manageDicButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new ManageDicWindow();
+			}
+		});
+
+		ImageIcon originalIcon = new ImageIcon(MenuWindow.class.getResource("/resources/hangman.jpg"));
+		Image originalImage = originalIcon.getImage();
+		Image resizedImage = originalImage.getScaledInstance(400, 250, Image.SCALE_SMOOTH); // Adjust width and height
+		ImageIcon resizedIcon = new ImageIcon(resizedImage);
+		JLabel imageLabel = new JLabel(resizedIcon);
+		line++;
+		// line 1
 		gbc.gridy = line;
 		gbc.insets = new Insets(0, 0, 80, 0);
 		add(imageLabel, gbc);
-
 
 		JLabel l2 = getLabel("Enter your name :");
 		// ligne 2
@@ -154,12 +170,13 @@ public class MenuInterface extends JPanel {
 		add(playButton, gbc);
 
 	}
-	private void removeWindowAndStartGame(Level diff,JFrame difficultyFrame,JFrame menuWindow) {
-	difficultyFrame.dispose();
-	menuWindow.dispose();
-	new GameWindow(diff,playerName);
+
+	private void removeWindowAndStartGame(Level diff, JFrame difficultyFrame, JFrame menuWindow) {
+		difficultyFrame.dispose();
+		menuWindow.dispose();
+		new GameWindow(diff, playerName);
 	}
-	
+
 	private void showDifficultySelection() {
 		JFrame difficultyFrame = new JFrame("Choose Difficulty");
 		difficultyFrame.setSize(300, 200);
@@ -179,14 +196,14 @@ public class MenuInterface extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (easyRadioButton.isSelected()) {
-					removeWindowAndStartGame(Level.LOW,difficultyFrame,menuWindow);
-		
+					removeWindowAndStartGame(Level.LOW, difficultyFrame, menuWindow);
+
 				} else if (mediumRadioButton.isSelected()) {
-					removeWindowAndStartGame(Level.MEDIUM,difficultyFrame,menuWindow);
-					
+					removeWindowAndStartGame(Level.MEDIUM, difficultyFrame, menuWindow);
+
 				} else if (hardRadioButton.isSelected()) {
-					removeWindowAndStartGame(Level.HIGH,difficultyFrame,menuWindow);
-					
+					removeWindowAndStartGame(Level.HIGH, difficultyFrame, menuWindow);
+
 				} else {
 					JOptionPane.showMessageDialog(difficultyFrame, "Please select a difficulty.");
 				}

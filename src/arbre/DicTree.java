@@ -16,34 +16,44 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 public class DicTree {
-	private Node root;
+	private static Node root;
+	private static String path;
 
 	// constructeur
 	public DicTree(String c) {
-		this.root = new Node(c);
+		if (root == null) {
+			// System.out.println("root created");
+			DicTree.root = new Node(c);
+		}
 	}
 
 	// getters
 	public Node getRoot() {
-		return this.root;
+		return DicTree.root;
 	}
 
 	// setters
 	public void setRoot(String c) {
-		this.root.setValue(c);
+		DicTree.root.setValue(c);
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	// méthodes
 
 	// arbre est vide
 	public boolean isEmpty() {
-		return this.root.getValue().equals("$");
+		return DicTree.root.getValue().equals("$");
 	}
 
 	// dessiner arbre
@@ -152,6 +162,7 @@ public class DicTree {
 		return arr;
 	}
 
+	// retourner le trajet pour un character
 	private void getArrayPath(Node node, String c, String ch, ArrayList<String> arr) {
 		if (node == null) {
 			ch = "";
@@ -286,67 +297,11 @@ public class DicTree {
 		y.setLeft(new Node("\0"));
 	}
 
-	// retourne phrase
-	public String chooseWord(int difficulty) {
-		Random rand = new Random();
-		int minLength, maxLength, length = 0;
-		switch (difficulty) {
-			case 1:
-				minLength = 2;
-				maxLength = 7;
-				break;
-			case 2:
-				minLength = 6;
-				maxLength = 12;
-				break;
-			case 3:
-				minLength = 10;
-				break;
-			default:
-		}
-		return "";
-	}
-
-	// fonction retourne path a partie de la racine exemple :LRRRLR
-	//
-	public String randomWord(Node root) {
-		String word = "";
-		// Intermediary var for root
-		Node rootInt = root;
-		while ((rootInt != null) && (rootInt.getValue() != "\0") && (rootInt.getValue() != null)) {
-			// if there's no more letters on the right, force going left
-			if ((rootInt.getLeft().getValue() != null) && (rootInt.getRight().getValue() == null)) {
-				// System.out.println("1");
-				// word = word.concat(rootInt.getValue());
-				word = word.concat("L");
-				rootInt = rootInt.getLeft();
-				continue;
-			}
-			/*
-			 * else if ((rootInt.getLeft() == null) && (rootInt.getRight() != null)) {
-			 * rootInt = rootInt.getRight();
-			 * break;
-			 * }
-			 */
-			int rand = (int) Math.round(Math.random());
-			if (rand == 0) {
-				// System.out.println("2");
-				// word = word.concat(rootInt.getValue());
-				word = word.concat("L");
-				rootInt = rootInt.getLeft();
-			} else if (rand == 1) {
-				// System.out.println("3");
-				word = word.concat("R");
-				rootInt = rootInt.getRight();
-			}
-		}
-		return word;
-	}
-
-	public String pathToWord(String path) {
+	// Transformer le trajet en un mot
+	public String pathToWord(String wordPath) {
 		Node rootInt = this.getRoot();
 		String word = "";
-		String[] paths = path.split("");
+		String[] paths = wordPath.split("");
 		for (String string : paths) {
 			if (string.equals("L")) {
 				word = word.concat(rootInt.getValue());
@@ -358,6 +313,7 @@ public class DicTree {
 		return word;
 	}
 
+	// Calculer la difficulté des mots
 	public Map<String, Float> calculateDifficulty() {
 		char[] LCL = { 'Z', 'Q', 'X', 'J', 'K', 'V', 'Y' },
 				MCL = { 'E', 'T', 'N', 'A', 'O', 'I', 'S', 'H', 'R', 'D' };
@@ -365,11 +321,12 @@ public class DicTree {
 		float nLCL = 0, nMCL = 0;
 		float diff = 0;
 		ArrayList<String> arr = this.findNodeByValueReturnList("\0");
-		for (String path : arr) {
+		for (String wordPath : arr) {
 			nLCL = 0;
 			nMCL = 0;
-			String word = this.pathToWord(path);
-			word = word.substring(0, word.length() - 1);
+			String word = this.pathToWord(wordPath);
+			if (word.length() > 1)
+				word = word.substring(0, word.length() - 1);
 			Set<Character> uniqueLetters = new HashSet<>();
 			for (char c : word.toCharArray()) {
 				uniqueLetters.add(c);
@@ -384,31 +341,32 @@ public class DicTree {
 						nMCL++;
 				}
 			}
-			System.out.println(word + " " + word.length() + " " + uniqueLetters.size() + " " + nLCL + " " + nMCL);
-			// diff = (uniqueLetters.size() / length) + (nLCL / LCL.length);// + (nMCL /
-			// MCL.length);
 			diff = word.length() * (1 - (nLCL / word.length())) * (1 + (nMCL / word.length()));
 			wordsDiff.put(word, diff / 10);
 		}
 		return wordsDiff;
 	}
 
-	public void addWordToFile(String word, String path) {
+	// ajouter un mot au fichier
+	public boolean addWordToFile(String word) {
 		word = "\n" + word;
 		try {
-			Files.write(Paths.get(path), word.toLowerCase().getBytes(), StandardOpenOption.APPEND);
+			Files.write(Paths.get(getPath()), word.toLowerCase().getBytes(), StandardOpenOption.APPEND);
+			return true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return false;
 	}
 
-	public boolean wordExistsInFile(String word, String path) {
+	// verifier si le mot existe dans le fichier
+	public boolean wordExistsInFile(String word) {
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(path));
+			BufferedReader br = new BufferedReader(new FileReader(this.getPath()));
 			String st;
 			while ((st = br.readLine()) != null) {
-				if (word.toUpperCase().equals(st.toUpperCase())) {
+				if (word.toLowerCase().equals(st.toLowerCase())) {
 					return true;
 				}
 			}
@@ -421,7 +379,9 @@ public class DicTree {
 		return false;
 	}
 
-	public void deleteWordFromFile(String word, String path) throws Exception {
+	// supprimer un mot du fichier
+	public boolean deleteWordFromFile(String word) throws Exception {
+		boolean success = false;
 		try (BufferedReader br = new BufferedReader(new FileReader(path));
 				BufferedWriter bw = new BufferedWriter(new FileWriter(path + ".tmp"))) {
 
@@ -433,6 +393,7 @@ public class DicTree {
 
 			}
 			System.out.println("String deleted from the file");
+			success = true;
 		} catch (IOException e) {
 			System.err.println("Error: " + e.getMessage());
 		}
@@ -455,7 +416,7 @@ public class DicTree {
 			System.out.println("File Deleted");
 		else
 			System.err.println("File not deleted");
-		;
+		return success;
 	}
 
 }

@@ -21,7 +21,7 @@ public class HangmanDrawingPanel extends JPanel {
     }
 
     public HangmanDrawingPanel(int step) {
-        this.step = step;
+        HangmanDrawingPanel.step = step;
     }
 
     public int getStep() {
@@ -29,7 +29,7 @@ public class HangmanDrawingPanel extends JPanel {
     }
 
     public void addOneStep() {
-        this.step = this.step + 1;
+        HangmanDrawingPanel.step = HangmanDrawingPanel.step + 1;
         repaint();
     }
 
